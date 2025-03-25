@@ -1,4 +1,3 @@
-import os
 file_name = "patient.txt"
 def load_patient():
     patients = {}
