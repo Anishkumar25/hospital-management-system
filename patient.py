@@ -38,15 +38,20 @@ def add_patient(patients):
     save_patient(patients)
     print(f"Patient {name} added successfully")
 
-def view_patients(patients):
+def view_patients(patients, return_id=False):
     if not patients:
         print("No patients found")
-        return
+        return None
+
     for patient_id, patient in patients.items():
         print(f"Patient id: {patient_id}")
         print(f"Name: {patient['name']}")
         print(f"Age: {patient['age']}")
         print(f"Disease: {patient['disease']}\n")
+
+    if return_id:
+        return input("Enter Patient ID: ")
+
 
 def delete_patient(patients):
     patient_id = input("Enter patient id: ")
@@ -58,19 +63,20 @@ def delete_patient(patients):
     print("Patient deleted successfully")
 
 patient=load_patient()
-while True:
-    print("1. Add patient")
-    print("2. View patients")
-    print("3. Delete patient")
-    print("4. Exit")
-    choice = input("Enter your choice: ")
-    if choice == "1":
-        add_patient(patient)
-    elif choice == "2":
-        view_patients(patient)
-    elif choice == "3":
-        delete_patient(patient)
-    elif choice == "4":
-        break
-    else:
-        print("Invalid choice")    
+if __name__ == "__main__":
+    while True:
+        print("1. Add patient")
+        print("2. View patients")
+        print("3. Delete patient")
+        print("4. Exit")
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            add_patient(patient)
+        elif choice == "2":
+            view_patients(patient)
+        elif choice == "3":
+            delete_patient(patient)
+        elif choice == "4":
+            break
+        else:
+            print("Invalid choice")    
