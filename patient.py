@@ -1,6 +1,8 @@
 file_name = "patient.txt"
+patients = {}  # Global dictionary to store patients
+
 def load_patient():
-    patients = {}
+    global patients
     try:
         with open(file_name, "r") as file:
             for line in file:
@@ -11,17 +13,18 @@ def load_patient():
                     "disease": disease
                 }
     except FileNotFoundError:
-        pass  
-    return patients  
+        pass
+    return patients
 
-def save_patient(patients):
+def save_patient():
     with open(file_name, "w") as file:
         for patient_id, patient in patients.items():
             file.write(
                 f"{patient_id},{patient['name']},{patient['age']},{patient['disease']}\n"
             )
 
-def add_patient(patients):
+def add_patient():
+    global patients
     patient_id = input("Enter patient id: ")
     if patient_id in patients:
         print("Patient already exists")
@@ -35,10 +38,10 @@ def add_patient(patients):
         "age": int(age),
         "disease": disease
     }
-    save_patient(patients)
+    save_patient()
     print(f"Patient {name} added successfully")
 
-def view_patients(patients, return_id=False):
+def view_patients(return_id=False):
     if not patients:
         print("No patients found")
         return None
@@ -52,17 +55,29 @@ def view_patients(patients, return_id=False):
     if return_id:
         return input("Enter Patient ID: ")
 
+def search_patient():
+    patient_id = input("Enter patient id to search: ")
+    if patient_id in patients:
+        patient = patients[patient_id]
+        print(f"Patient id: {patient_id}")
+        print(f"Name: {patient['name']}")
+        print(f"Age: {patient['age']}")
+        print(f"Disease: {patient['disease']}")
+    else:
+        print("Patient not found")
 
-def delete_patient(patients):
+def delete_patient():
     patient_id = input("Enter patient id: ")
     if patient_id not in patients:
         print("Patient not found")
         return
     del patients[patient_id]
-    save_patient(patients)
+    save_patient()
     print("Patient deleted successfully")
 
-patient=load_patient()
+# Load patients when module is imported
+load_patient()
+
 if __name__ == "__main__":
     while True:
         print("1. Add patient")
@@ -71,12 +86,12 @@ if __name__ == "__main__":
         print("4. Exit")
         choice = input("Enter your choice: ")
         if choice == "1":
-            add_patient(patient)
+            add_patient()
         elif choice == "2":
-            view_patients(patient)
+            view_patients()
         elif choice == "3":
-            delete_patient(patient)
+            delete_patient()
         elif choice == "4":
             break
         else:
-            print("Invalid choice")    
+            print("Invalid choice")

@@ -8,7 +8,7 @@ def generate_unique_id():
         if appointment_id not in appointments:  
             return appointment_id
 
-def book_appointment(patient_id=None):
+def book_appointment(patient_id=True):
     patients = load_patient()  # Load patients first
     if patient_id is None:
         patient_id = view_patients(patients, return_id=True)
@@ -108,25 +108,26 @@ def load_appointments_from_file(filename='appointments.txt'):
         print("Appointments loaded successfully!")
     except FileNotFoundError:
         print("No saved appointments file found.")
-load_appointments_from_file()
-while True:
-    print("1. Book Appointment")
-    print("2. View Appointments")
-    print("3. Cancel Appointment")
-    print("4. Get Patient Appointments")
-    print("5. Exit")
-    choice = input("Enter your choice: ")
-    if choice == "1":
-        book_appointment()
-    elif choice == "2":
-        view_appointments()
-    elif choice == "3":
-        cancel_appointment()
-    elif choice == "4":
-        patient_id = input("Enter Patient ID: ")
-        get_patient_appointments(patient_id)
-    elif choice == "5":
-        save_appointments_to_file()
-        break
-    else:
-        print("Invalid choice, please try again.")
+if __name__ == "__main__":
+    load_appointments_from_file()
+    while True:
+        print("1. Book Appointment")
+        print("2. View Appointments")
+        print("3. Cancel Appointment")
+        print("4. Get Patient Appointments")
+        print("5. Exit")
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            book_appointment()
+        elif choice == "2":
+            view_appointments()
+        elif choice == "3":
+            cancel_appointment()
+        elif choice == "4":
+            patient_id = input("Enter Patient ID: ")
+            get_patient_appointments(patient_id)
+        elif choice == "5":
+            save_appointments_to_file()
+            break
+        else:
+            print("Invalid choice, please try again.")
